@@ -1,7 +1,5 @@
-// AppRoutes.jsx
 import React, { useState, useEffect } from 'react';
-import { Navbar, Main, Cabinet,Register } from '../components/';
-
+import { Navbar, Main, Cabinet, Register } from '../components/';
 import { Route, Routes } from 'react-router-dom';
 
 const AppRoutes = () => {
@@ -12,9 +10,7 @@ const AppRoutes = () => {
     const handleResize = () => {
       const mobile = window.innerWidth <= 768;
       setIsMobile(mobile);
-      if (!mobile) {
-        setSidebarOpen(true);
-      }
+      if (!mobile) setSidebarOpen(true);
     };
 
     handleResize();
@@ -24,11 +20,7 @@ const AppRoutes = () => {
 
   return (
     <>
-      <Navbar
-        sidebarOpen={sidebarOpen}
-        setSidebarOpen={setSidebarOpen}
-        isMobile={isMobile}
-      />
+      <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} isMobile={isMobile} />
       <div className={`routes__container ${!sidebarOpen || isMobile ? 'sidebar-closed' : ''}`}>
         <Routes>
           <Route path="/" element={<Main />} />

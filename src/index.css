@@ -25,8 +25,7 @@ body {
 
 .routes__container {
   margin-left: 250px;
-  /* Соответствует ширине навигационной панели на десктопе */
-  padding: 20px;
+  padding: 10px;
   min-height: 100vh;
   transition: margin-left 0.3s ease-in-out;
 }
@@ -35,8 +34,7 @@ body {
 @media (max-width: 768px) {
   .routes__container {
     margin-left: 0;
-          padding-inline: 20px;
-    /* На мобильных устройствах контент занимает всю ширину */
+  
   }
 }
 
