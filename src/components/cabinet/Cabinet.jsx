@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import './cabinet.css';
 
-const CabinetContainer = styled(Box)({
+const CabinetContainer = styled(Box)(({ theme }) => ({
   width: '100%',
   minHeight: '100vh',
   backgroundColor: '#000',
@@ -13,8 +13,13 @@ const CabinetContainer = styled(Box)({
   alignItems: 'center',
   justifyContent: 'center',
   color: '#ffd700',
+  padding: '0px', // Обычное состояние (без padding)
 
-});
+  [theme.breakpoints.down('sm')]: {
+    padding: '10px', // Добавляем padding на мобильных
+  },
+}));
+
 
 const ProfileBox = styled(Box)({
   maxWidth: '600px',
