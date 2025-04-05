@@ -13,7 +13,7 @@ import dayjs from 'dayjs';
 const generateUserId = () => {
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   const randomLetter = letters[Math.floor(Math.random() * letters.length)];
-  const randomNumbers = Math.floor(1000 + Math.random() * 9000); // 4-значное число
+  const randomNumbers = Math.floor(1000 + Math.random() * 9000);
   return `${randomLetter}${randomNumbers}`;
 };
 
@@ -30,7 +30,9 @@ const RegisterContainer = styled(Box)(({ theme }) => ({
   marginTop: 70,
   padding: '20px',
   [theme.breakpoints.down('sm')]: {
-    padding: '15px',
+    padding: '20px',
+    marginTop: 150,
+
   },
 }));
 
@@ -51,13 +53,13 @@ const StyledTextField = styled(TextField)({
     borderRadius: 6,
     backgroundColor: '#ffffff',
     '& fieldset': {
-      borderColor: 'rgba(0, 0, 0, 0.2)', // Обычная граница
+      borderColor: 'rgba(0, 0, 0, 0.2)',
     },
     '&:hover fieldset': {
-      borderColor: '#000000', // Черный при ховере
+      borderColor: '#000000',
     },
     '&.Mui-focused fieldset': {
-      borderColor: '#000000', // Черный при фокусе
+      borderColor: '#000000',
     },
   },
   '& .MuiInputBase-input': {
@@ -65,14 +67,14 @@ const StyledTextField = styled(TextField)({
     fontFamily: "'Roboto', sans-serif",
   },
   '& .MuiInputLabel-root': {
-    color: '#000000 !important', // Метка всегда черная
+    color: '#000000 !important',
     fontFamily: "'Roboto', sans-serif",
   },
   '& .MuiInputLabel-root.Mui-focused': {
-    color: '#000000 !important', // Метка при фокусе черная
+    color: '#000000 !important',
   },
   '& .MuiInputLabel-root.Mui-error': {
-    color: '#000000 !important', // Метка при ошибке черная
+    color: '#000000 !important',
   },
 });
 
@@ -122,7 +124,14 @@ const Register = ({ setIsAuthenticated }) => {
       rank: generateRandomRank(),
     };
 
+    // Сохраняем текущего пользователя в userData
     localStorage.setItem('userData', JSON.stringify(newUser));
+
+    // Добавляем пользователя в массив users
+    const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
+    storedUsers.push(newUser);
+    localStorage.setItem('users', JSON.stringify(storedUsers));
+
     setIsAuthenticated(true);
     navigate('/cabinet');
   };
@@ -162,13 +171,13 @@ const Register = ({ setIsAuthenticated }) => {
                 textField: {
                   sx: {
                     '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                      borderColor: '#000000', // Черный при фокусе
+                      borderColor: '#000000',
                     },
                     '& .MuiInputLabel-root': {
-                      color: '#000000 !important', // Метка всегда черная
+                      color: '#000000 !important',
                     },
                     '& .MuiInputLabel-root.Mui-focused': {
-                      color: '#000000 !important', // Метка при фокусе черная
+                      color: '#000000 !important',
                     },
                   },
                 },
@@ -181,24 +190,24 @@ const Register = ({ setIsAuthenticated }) => {
                     '& .MuiPickersDay-root': {
                       color: '#000000',
                       '&:hover': {
-                        backgroundColor: 'rgba(0, 0, 0, 0.1)', // Черный ховер
+                        backgroundColor: 'rgba(0, 0, 0, 0.1)',
                       },
                     },
                     '& .MuiPickersDay-root.Mui-selected': {
-                      backgroundColor: '#000000', // Черный при выборе
+                      backgroundColor: '#000000',
                       color: '#ffffff',
                       '&:hover': {
-                        backgroundColor: '#333333', // Темно-серый при ховере на выбранный
+                        backgroundColor: '#333333',
                       },
                     },
                     '& .MuiIconButton-root': {
-                      color: '#000000', // Иконки черные
+                      color: '#000000',
                       '&:hover': {
                         backgroundColor: 'rgba(0, 0, 0, 0.1)',
                       },
                     },
                     '& .MuiPickersDay-today': {
-                      border: '1px solid #000000', // Сегодняшний день с черной границей
+                      border: '1px solid #000000',
                       backgroundColor: 'transparent',
                       color: '#000000',
                       '&:hover': {

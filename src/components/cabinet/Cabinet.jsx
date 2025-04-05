@@ -18,7 +18,8 @@ const CabinetContainer = styled(Box)(({ theme }) => ({
   padding: '0px', // Обычное состояние (без padding)
 
   [theme.breakpoints.down('sm')]: {
-    padding: '10px', // Добавляем padding на мобильных
+    padding: '20px', // Добавляем padding на мобильных
+    marginTop:-40 ,
   },
 }));
 

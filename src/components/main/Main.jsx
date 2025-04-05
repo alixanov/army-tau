@@ -14,15 +14,14 @@ import {
 const MainContainer = styled('div')(({ theme }) => ({
   width: '100%',
   margin: '0 auto',
-  [theme.breakpoints.down('sm')]: {
-  },
+  [theme.breakpoints.down('sm')]: {},
 }));
 
 const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
-  backgroundColor: '#ffffff', // Белый фон
-  border: '1px solid rgba(0, 0, 0, 0.1)', // Тонкая черная граница
+  backgroundColor: '#ffffff',
+  border: '1px solid rgba(0, 0, 0, 0.1)',
   borderRadius: 8,
-  boxShadow: '0 2px 10px rgba(0, 0, 0, 0.05)', // Легкая тень
+  boxShadow: '0 2px 10px rgba(0, 0, 0, 0.05)',
   [theme.breakpoints.down('sm')]: {
     borderRadius: 6,
   },
@@ -30,15 +29,15 @@ const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
 
 const StyledTable = styled(Table)({
   '& .MuiTableCell-root': {
-    borderBottom: '1px solid rgba(0, 0, 0, 0.1)', // Тонкая черная граница снизу
-    padding: '12px', // Уменьшенный отступ для минимализма
+    borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
+    padding: '12px',
     fontFamily: "'Roboto', sans-serif",
   },
 });
 
 const StyledTableHeadCell = styled(TableCell)({
-  backgroundColor: '#000000', // Черный фон для заголовков
-  color: '#ffffff', // Белый текст
+  backgroundColor: '#000000',
+  color: '#ffffff',
   fontWeight: 600,
   fontSize: 14,
   textTransform: 'uppercase',
@@ -46,17 +45,26 @@ const StyledTableHeadCell = styled(TableCell)({
 });
 
 const StyledTableBodyCell = styled(TableCell)(({ theme }) => ({
-  color: '#000000', // Черный текст
+  color: '#000000',
   fontSize: 14,
   transition: 'background-color 0.3s ease',
   '&:hover': {
-    backgroundColor: 'rgba(0, 0, 0, 0.05)', // Легкий черный фон при наведении
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
   },
   [theme.breakpoints.down('sm')]: {
     fontSize: 12,
     padding: '8px',
   },
 }));
+
+// Функция форматирования даты (такая же, как в Cabinet)
+const formatDateToDogTag = (date) => {
+  const d = new Date(date);
+  const day = d.getDate().toString().padStart(2, '0');
+  const month = (d.getMonth() + 1).toString().padStart(2, '0');
+  const year = d.getFullYear();
+  return `${day}◆${month}◆${year}`;
+};
 
 const Main = () => {
   const [users, setUsers] = useState([]);
@@ -95,9 +103,7 @@ const Main = () => {
               <TableRow key={index} sx={{ '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.02)' } }}>
                 <StyledTableBodyCell>{user.id}</StyledTableBodyCell>
                 <StyledTableBodyCell>{user.username}</StyledTableBodyCell>
-                <StyledTableBodyCell>
-                  {new Date(user.birthDate).toLocaleDateString('ru-RU')}
-                </StyledTableBodyCell>
+                <StyledTableBodyCell>{formatDateToDogTag(user.birthDate)}</StyledTableBodyCell>
                 <StyledTableBodyCell>{user.rank}</StyledTableBodyCell>
               </TableRow>
             ))}
