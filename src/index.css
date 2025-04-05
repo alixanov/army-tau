@@ -1,0 +1,42 @@
+/* styles.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  background-color: #f5f7fa;
+  /* Светлый фон для современного вида */
+  font-family: 'Inter', sans-serif;
+  /* Современный шрифт */
+}
+
+#root {
+  max-width: 1920px;
+  width: 100%;
+  /* Плавные переходы */
+}
+
+
+.routes__container {
+  margin-left: 250px;
+  /* Соответствует ширине навигационной панели на десктопе */
+  padding: 20px;
+  min-height: 100vh;
+  transition: margin-left 0.3s ease-in-out;
+}
+
+/* Адаптация для мобильных устройств */
+@media (max-width: 768px) {
+  .routes__container {
+    margin-left: 0;
+          padding-inline: 20px;
+    /* На мобильных устройствах контент занимает всю ширину */
+  }
+}
+
