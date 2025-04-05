@@ -23,9 +23,11 @@ const generateRandomRank = () => {
   return ranks[Math.floor(Math.random() * ranks.length)];
 };
 
+// Стилизованные компоненты
 const RegisterContainer = styled(Box)(({ theme }) => ({
   width: '100%',
   margin: '0 auto',
+  marginTop: 70,
   padding: '20px',
   [theme.breakpoints.down('sm')]: {
     padding: '15px',
@@ -49,13 +51,13 @@ const StyledTextField = styled(TextField)({
     borderRadius: 6,
     backgroundColor: '#ffffff',
     '& fieldset': {
-      borderColor: 'rgba(0, 0, 0, 0.2)',
+      borderColor: 'rgba(0, 0, 0, 0.2)', // Обычная граница
     },
     '&:hover fieldset': {
-      borderColor: 'rgba(0, 0, 0, 0.4)',
+      borderColor: '#000000', // Черный при ховере
     },
     '&.Mui-focused fieldset': {
-      borderColor: '#000000',
+      borderColor: '#000000', // Черный при фокусе
     },
   },
   '& .MuiInputBase-input': {
@@ -63,14 +65,14 @@ const StyledTextField = styled(TextField)({
     fontFamily: "'Roboto', sans-serif",
   },
   '& .MuiInputLabel-root': {
-    color: '#000000 !important', // Черный цвет метки всегда
+    color: '#000000 !important', // Метка всегда черная
     fontFamily: "'Roboto', sans-serif",
   },
   '& .MuiInputLabel-root.Mui-focused': {
-    color: '#000000 !important', // Черный цвет метки при фокусе
+    color: '#000000 !important', // Метка при фокусе черная
   },
   '& .MuiInputLabel-root.Mui-error': {
-    color: '#000000 !important', // Черный цвет метки при ошибке
+    color: '#000000 !important', // Метка при ошибке черная
   },
 });
 
@@ -90,7 +92,7 @@ const SubmitButton = styled(Button)({
   },
 });
 
-const Register = () => {
+const Register = ({ setIsAuthenticated }) => {
   const [formData, setFormData] = useState({
     username: '',
     birthDate: null,
@@ -120,10 +122,8 @@ const Register = () => {
       rank: generateRandomRank(),
     };
 
-    const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
-    storedUsers.push(newUser);
-    localStorage.setItem('users', JSON.stringify(storedUsers));
-
+    localStorage.setItem('userData', JSON.stringify(newUser));
+    setIsAuthenticated(true);
     navigate('/cabinet');
   };
 
@@ -132,12 +132,7 @@ const Register = () => {
       <Typography
         variant="h4"
         align="center"
-        sx={{
-          mb: 3,
-          fontWeight: 600,
-          color: '#000000',
-          fontFamily: "'Roboto', sans-serif",
-        }}
+        sx={{ mb: 3, fontWeight: 600, color: '#000000', fontFamily: "'Roboto', sans-serif" }}
       >
         Регистрация
       </Typography>
@@ -155,7 +150,6 @@ const Register = () => {
             fullWidth
           />
         </FormGroup>
-
         <FormGroup>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
@@ -165,6 +159,19 @@ const Register = () => {
               renderInput={(params) => <StyledTextField {...params} fullWidth />}
               required
               slotProps={{
+                textField: {
+                  sx: {
+                    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                      borderColor: '#000000', // Черный при фокусе
+                    },
+                    '& .MuiInputLabel-root': {
+                      color: '#000000 !important', // Метка всегда черная
+                    },
+                    '& .MuiInputLabel-root.Mui-focused': {
+                      color: '#000000 !important', // Метка при фокусе черная
+                    },
+                  },
+                },
                 popper: {
                   sx: {
                     '& .MuiPaper-root': {
@@ -174,59 +181,29 @@ const Register = () => {
                     '& .MuiPickersDay-root': {
                       color: '#000000',
                       '&:hover': {
-                        backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                        backgroundColor: 'rgba(0, 0, 0, 0.1)', // Черный ховер
                       },
                     },
                     '& .MuiPickersDay-root.Mui-selected': {
-                      backgroundColor: '#000000',
+                      backgroundColor: '#000000', // Черный при выборе
                       color: '#ffffff',
                       '&:hover': {
-                        backgroundColor: '#000000',
+                        backgroundColor: '#333333', // Темно-серый при ховере на выбранный
                       },
-                    },
-                    '& .MuiPickersDay-root.Mui-selected.Mui-focusVisible': {
-                      backgroundColor: '#000000',
-                      color: '#ffffff',
-                      '&:focus': {
-                        backgroundColor: '#000000',
-                        outline: 'none',
-                      },
-                    },
-                    '& .MuiPickersDay-root:focus': {
-                      outline: 'none',
-                      backgroundColor: 'rgba(0, 0, 0, 0.2)',
                     },
                     '& .MuiIconButton-root': {
-                      color: '#000000',
+                      color: '#000000', // Иконки черные
                       '&:hover': {
                         backgroundColor: 'rgba(0, 0, 0, 0.1)',
                       },
                     },
                     '& .MuiPickersDay-today': {
-                      border: '1px solid rgba(0, 0, 0, 0.2)',
+                      border: '1px solid #000000', // Сегодняшний день с черной границей
                       backgroundColor: 'transparent',
                       color: '#000000',
                       '&:hover': {
                         backgroundColor: 'rgba(0, 0, 0, 0.1)',
                       },
-                    },
-                    '& .MuiPickersDay-today.Mui-focusVisible': {
-                      backgroundColor: 'rgba(0, 0, 0, 0.2)',
-                      outline: 'none',
-                    },
-                  },
-                },
-                textField: {
-                  sx: {
-                    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                      borderColor: '#000000',
-                    },
-                    // Убедимся, что метка всегда черная
-                    '& .MuiInputLabel-root': {
-                      color: '#000000 !important',
-                    },
-                    '& .MuiInputLabel-root.Mui-focused': {
-                      color: '#000000 !important',
                     },
                   },
                 },
@@ -234,7 +211,6 @@ const Register = () => {
             />
           </LocalizationProvider>
         </FormGroup>
-
         <SubmitButton type="submit">Зарегистрироваться</SubmitButton>
       </Form>
     </RegisterContainer>

@@ -13,60 +13,75 @@ const NavbarContainer = styled(Drawer)(({ theme }) => ({
   '& .MuiDrawer-paper': {
     width: 250,
     height: '100vh',
-    background: '#000000', // Черный фон
-    borderRight: '1px solid rgba(255, 255, 255, 0.1)', // Тонкая белая граница
+    background: '#000000',
+    borderRight: '1px solid rgba(255, 255, 255, 0.1)',
     transition: theme.transitions.create('transform', {
       duration: theme.transitions.duration.standard,
       easing: theme.transitions.easing.easeInOut,
     }),
-    [theme.breakpoints.down('sm')]: {
-      width: 220,
-    },
   },
+}));
+
+const FooterContainer = styled(Box)(({ theme }) => ({
+  position: 'fixed',
+  bottom: 0,
+  left: 0,
+  width: '100%',
+  background: '#000000',
+  display: 'flex',
+  justifyContent: 'space-around',
+  alignItems: 'center',
+  padding: '10px 0',
+  borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+  zIndex: 1300,
 }));
 
 const LogoContainer = styled(Box)({
   padding: 20,
   textAlign: 'center',
-  borderBottom: '1px solid rgba(255, 255, 255, 0.1)', // Тонкая белая граница снизу
+  borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
 });
 
 const LogoText = styled(Typography)({
-  color: '#ffffff', // Белый текст
+  color: '#ffffff',
   fontSize: 24,
   fontFamily: "'Inter', sans-serif",
   fontWeight: 700,
   letterSpacing: '0.5px',
 });
 
-const NavItems = styled(Box)({
+const NavItems = styled(Box)(({ isMobile }) => ({
   display: 'flex',
-  flexDirection: 'column',
-  gap: 10, // Уменьшенный отступ для минимализма
-  padding: 20,
-});
+  flexDirection: isMobile ? 'row' : 'column',
+  gap: isMobile ? 0 : 10,
+  padding: isMobile ? 0 : 20,
+  justifyContent: 'space-around',
+  width: '100%',
+}));
 
-const NavItem = styled(Link)(({ theme, active }) => ({
+const NavItem = styled(Link)(({ theme, active, isMobile }) => ({
   display: 'flex',
   alignItems: 'center',
-  gap: 12,
+  gap: 8,
+  flexDirection: isMobile ? 'column' : 'row',
   textDecoration: 'none',
-  color: '#ffffff', // Белый текст
-  padding: '10px 15px',
+  color: '#ffffff',
+  padding: isMobile ? '5px 0' : '10px 15px',
   borderRadius: 6,
+  fontSize: 12,
   transition: theme.transitions.create(['all'], {
     duration: theme.transitions.duration.short,
     easing: theme.transitions.easing.easeInOut,
   }),
   '&:hover': {
-    background: 'rgba(255, 255, 255, 0.05)', // Легкий белый фон при наведении
-    transform: 'translateX(3px)', // Уменьшенный сдвиг для минимализма
+    background: isMobile ? 'none' : 'rgba(255, 255, 255, 0.05)',
+    transform: isMobile ? 'none' : 'translateX(3px)',
   },
   ...(active && {
-    background: 'rgba(255, 255, 255, 0.1)', // Более заметный фон для активного пункта
+    background: isMobile ? 'none' : 'rgba(255, 255, 255, 0.1)',
     color: '#ffffff',
     fontWeight: 600,
-    transform: 'translateX(3px)',
+    transform: isMobile ? 'none' : 'translateX(3px)',
   }),
 }));
 
@@ -74,18 +89,18 @@ const MenuButton = styled(IconButton)(({ theme }) => ({
   position: 'fixed',
   top: 20,
   left: 20,
-  backgroundColor: '#000000', // Черный фон кнопки
-  color: '#ffffff', // Белая иконка
+  backgroundColor: '#000000',
+  color: '#ffffff',
   zIndex: 1100,
   width: 44,
   height: 44,
-  border: '1px solid rgba(255, 255, 255, 0.2)', // Тонкая белая граница
+  border: '1px solid rgba(255, 255, 255, 0.2)',
   transition: theme.transitions.create(['background-color', 'border'], {
     duration: theme.transitions.duration.short,
   }),
   '&:hover': {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)', // Легкий белый фон при наведении
-    border: '1px solid rgba(255, 255, 255, 0.4)', // Более яркая граница
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    border: '1px solid rgba(255, 255, 255, 0.4)',
   },
 }));
 
@@ -114,18 +129,26 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
     };
   }, [isMobile, sidebarOpen, setSidebarOpen]);
 
+  if (isMobile) {
+    return (
+      <FooterContainer>
+        <NavItems isMobile={true}>
+          <NavItem to="/" active={location.pathname === '/' ? 1 : 0} isMobile={true}>
+            <HomeFilledIcon sx={{ fontSize: 22, color: '#ffffff' }} />
+            <Typography sx={{ color: '#ffffff', fontSize: 12 }}>Главная</Typography>
+          </NavItem>
+          <NavItem to="/cabinet" active={location.pathname === '/cabinet' ? 1 : 0} isMobile={true}>
+            <AccountBoxIcon sx={{ fontSize: 22, color: '#ffffff' }} />
+            <Typography sx={{ color: '#ffffff', fontSize: 12 }}>Кабинет</Typography>
+          </NavItem>
+        </NavItems>
+      </FooterContainer>
+    );
+  }
+
   return (
     <>
-      {isMobile && !sidebarOpen && (
-        <MenuButton className="menu-button" onClick={() => setSidebarOpen(true)}>
-          <MenuIcon />
-        </MenuButton>
-      )}
-      <NavbarContainer
-        variant={isMobile ? 'temporary' : 'permanent'}
-        open={sidebarOpen}
-        onClose={() => isMobile && setSidebarOpen(false)}
-      >
+      <NavbarContainer variant="permanent" open={true}>
         <LogoContainer>
           <LogoText>GameHub</LogoText>
         </LogoContainer>
@@ -134,7 +157,7 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
             <HomeFilledIcon sx={{ fontSize: 22, color: '#ffffff' }} />
             <Typography sx={{ color: '#ffffff' }}>Главная</Typography>
           </NavItem>
-          <NavItem to="/register" active={location.pathname === '/register' ? 1 : 0}>
+          <NavItem to="/cabinet" active={location.pathname === '/cabinet' ? 1 : 0}>
             <AccountBoxIcon sx={{ fontSize: 22, color: '#ffffff' }} />
             <Typography sx={{ color: '#ffffff' }}>Кабинет</Typography>
           </NavItem>

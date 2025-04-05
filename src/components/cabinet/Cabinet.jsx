@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button'; // Добавляем Button из MUI
+import { useNavigate } from 'react-router-dom'; // Добавляем useNavigate для редиректа
 import './cabinet.css';
 
 const CabinetContainer = styled(Box)(({ theme }) => ({
@@ -19,7 +21,6 @@ const CabinetContainer = styled(Box)(({ theme }) => ({
     padding: '10px', // Добавляем padding на мобильных
   },
 }));
-
 
 const ProfileBox = styled(Box)({
   maxWidth: '600px',
@@ -39,8 +40,25 @@ const InfoSection = styled(Box)({
   },
 });
 
-const Cabinet = () => {
+const LogoutButton = styled(Button)({
+  marginTop: '20px',
+  padding: '10px 20px',
+  backgroundColor: '#ffd700',
+  color: '#000',
+  fontWeight: 'bold',
+  textTransform: 'uppercase',
+  letterSpacing: '2px',
+  borderRadius: '4px',
+  transition: 'all 0.3s ease',
+  '&:hover': {
+    backgroundColor: '#ffa500',
+    transform: 'scale(1.05)',
+  },
+});
+
+const Cabinet = ({ setIsAuthenticated }) => {
   const [userData, setUserData] = useState(null);
+  const navigate = useNavigate(); // Для перенаправления
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem('userData'));
@@ -48,6 +66,12 @@ const Cabinet = () => {
       setUserData(storedData);
     }
   }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('userData'); // Удаляем данные из localStorage
+    setIsAuthenticated(false); // Обновляем состояние аутентификации
+    navigate('/register'); // Перенаправляем на страницу регистрации
+  };
 
   if (!userData) {
     return (
@@ -57,7 +81,7 @@ const Cabinet = () => {
           sx={{
             color: '#ffd700',
             textShadow: '0 0 10px rgba(255, 215, 0, 0.5)',
-            letterSpacing: '3px'
+            letterSpacing: '3px',
           }}
         >
           ⚠ ДОСТУП ЗАПРЕЩЕН ⚠
@@ -86,7 +110,7 @@ const Cabinet = () => {
           textTransform: 'uppercase',
           letterSpacing: '5px',
           textShadow: '0 0 15px rgba(255, 215, 0, 0.3)',
-          fontWeight: 'bold'
+          fontWeight: 'bold',
         }}
       >
         Секретно
@@ -112,9 +136,7 @@ const Cabinet = () => {
         </InfoSection>
 
         <InfoSection>
-          <Typography className="military-date">
-            {formattedDate}
-          </Typography>
+          <Typography className="military-date">{formattedDate}</Typography>
         </InfoSection>
 
         <InfoSection>
@@ -123,12 +145,14 @@ const Cabinet = () => {
               color: '#ffd700',
               opacity: 0.8,
               fontStyle: 'italic',
-              letterSpacing: '1px'
+              letterSpacing: '1px',
             }}
           >
             СТАТУС: АКТИВНЫЙ
           </Typography>
         </InfoSection>
+
+        <LogoutButton onClick={handleLogout}>Выйти</LogoutButton>
       </ProfileBox>
     </CabinetContainer>
   );

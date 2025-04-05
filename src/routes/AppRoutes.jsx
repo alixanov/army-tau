@@ -8,19 +8,8 @@ const AppRoutes = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   const location = useLocation();
 
-  useEffect(() => {
-    const handleResize = () => {
-      const mobile = window.innerWidth <= 768;
-      setIsMobile(mobile);
-      if (!mobile) setSidebarOpen(true);
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  useEffect(() => {
+  // Функция для проверки и установки состояния аутентификации
+  const checkAuthentication = () => {
     const storedData = localStorage.getItem('userData');
     if (storedData) {
       try {
@@ -36,26 +25,60 @@ const AppRoutes = () => {
     } else {
       setIsAuthenticated(false);
     }
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
+      if (!mobile) setSidebarOpen(true);
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  if (isAuthenticated === null) return null; // или <Loading />
+  useEffect(() => {
+    checkAuthentication();
+  }, []);
+
+  // Обновляем состояние при изменении localStorage (опционально)
+  useEffect(() => {
+    window.addEventListener('storage', checkAuthentication);
+    return () => window.removeEventListener('storage', checkAuthentication);
+  }, []);
+
+  if (isAuthenticated === null) return <div>Загрузка...</div>; // Показываем индикатор загрузки
 
   return (
     <>
       <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} isMobile={isMobile} />
       <div
         className={`routes__container ${!sidebarOpen || isMobile ? 'sidebar-closed' : ''}`}
-        style={{ padding: location.pathname === "/cabinet" ? "0px" : "10px" }}
+        style={{ padding: location.pathname === '/cabinet' ? '0px' : '10px' }}
       >
         <Routes>
           <Route path="/" element={<Main />} />
           <Route
             path="/cabinet"
-            element={isAuthenticated ? <Cabinet /> : <Navigate to="/register" />}
+            element={
+              isAuthenticated ? (
+                <Cabinet setIsAuthenticated={setIsAuthenticated} />
+              ) : (
+                <Navigate to="/register" />
+              )
+            }
           />
           <Route
             path="/register"
-            element={isAuthenticated ? <Navigate to="/cabinet" /> : <Register />}
+            element={
+              isAuthenticated ? (
+                <Navigate to="/cabinet" />
+              ) : (
+                <Register setIsAuthenticated={setIsAuthenticated} />
+              )
+            }
           />
         </Routes>
       </div>
