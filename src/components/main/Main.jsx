@@ -20,6 +20,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import BadgeIcon from '@mui/icons-material/Badge';
 import FingerprintIcon from '@mui/icons-material/Fingerprint';
+import TagIcon from '@mui/icons-material/Tag';
 
 // Army color scheme
 const colors = {
@@ -56,28 +57,40 @@ const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
 const StyledTable = styled(Table)({
   '& .MuiTableCell-root': {
     borderBottom: `1px solid ${colors.armyGreen}50`,
-    padding: '12px',
+    padding: '8px', // Уменьшенные отступы для компактности
     fontFamily: "'Montserrat', sans-serif",
   },
 });
 
-const StyledTableHeadCell = styled(TableCell)({
+const StyledTableHeadCell = styled(TableCell)(({ theme }) => ({
   backgroundColor: colors.armyGreen, // Green background for table headers
   color: colors.white, // White text for headers
   fontWeight: 600,
   fontSize: 14,
   textTransform: 'uppercase',
   letterSpacing: '1px',
-  padding: '14px',
-});
+  padding: '10px', // Уменьшенные отступы
+  borderRight: `1px solid ${colors.armyGreen}80`, // Добавляем вертикальные линии
+  '&:last-child': {
+    borderRight: 'none', // Убираем линию у последнего столбца
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: 12,
+    padding: '8px',
+  },
+}));
 
 const StyledTableBodyCell = styled(TableCell)(({ theme }) => ({
   color: colors.white, // White text in rows
   fontSize: 14,
   backgroundColor: colors.rowBackground, // Row background color
+  borderRight: `1px solid ${colors.armyGreen}50`, // Добавляем вертикальные линии
+  '&:last-child': {
+    borderRight: 'none', // Убираем линию у последнего столбца
+  },
   [theme.breakpoints.down('sm')]: {
     fontSize: 12,
-    padding: '10px',
+    padding: '6px',
   },
 }));
 
@@ -163,6 +176,18 @@ const Main = () => {
           <CardContent>
             <CardRow>
               <IconWrapper>
+                <TagIcon fontSize="small" />
+              </IconWrapper>
+              <Box>
+                <LabelText>Serial Number</LabelText>
+                <ValueText>{index + 1}</ValueText>
+              </Box>
+            </CardRow>
+
+            <Divider sx={{ my: 1, borderColor: `${colors.armyGreen}50` }} />
+
+            <CardRow>
+              <IconWrapper>
                 <PersonIcon fontSize="small" />
               </IconWrapper>
               <Box>
@@ -206,10 +231,13 @@ const Main = () => {
       <StyledTable>
         <TableHead>
           <TableRow>
-            <StyledTableHeadCell>ID</StyledTableHeadCell>
-            <StyledTableHeadCell>Username</StyledTableHeadCell>
-            <StyledTableHeadCell>Date of Birth</StyledTableHeadCell>
-            <StyledTableHeadCell>Rank</StyledTableHeadCell>
+            <StyledTableHeadCell sx={{ width: '10%', textAlign: 'center' }}>
+              Serial Number
+            </StyledTableHeadCell>
+            <StyledTableHeadCell sx={{ width: '20%' }}>ID</StyledTableHeadCell>
+            <StyledTableHeadCell sx={{ width: '25%' }}>Username</StyledTableHeadCell>
+            <StyledTableHeadCell sx={{ width: '25%' }}>Date of Birth</StyledTableHeadCell>
+            <StyledTableHeadCell sx={{ width: '20%' }}>Rank</StyledTableHeadCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -221,6 +249,9 @@ const Main = () => {
                 transition: 'background-color 0.3s ease',
               }}
             >
+              <StyledTableBodyCell sx={{ textAlign: 'center' }}>
+                {index + 1}
+              </StyledTableBodyCell>
               <StyledTableBodyCell>{user.id}</StyledTableBodyCell>
               <StyledTableBodyCell>{user.username}</StyledTableBodyCell>
               <StyledTableBodyCell>{formatDateToDogTag(user.birthDate)}</StyledTableBodyCell>
