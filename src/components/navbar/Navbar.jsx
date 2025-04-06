@@ -5,15 +5,20 @@ import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import HomeFilledIcon from '@mui/icons-material/HomeFilled';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import MenuIcon from '@mui/icons-material/Menu';
+import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
+import PersonIcon from '@mui/icons-material/Person';
+
+const colors = {
+  background: 'linear-gradient(90deg, #A32929, #A8A14E)',
+  accent: '#A32929',
+  khaki: '#A8A14E',
+};
 
 const NavbarContainer = styled(Drawer)(({ theme }) => ({
   '& .MuiDrawer-paper': {
     width: 250,
     height: '100vh',
-    background: '#000000',
+    background: '#1a1a1a',
     borderRight: '1px solid rgba(255, 255, 255, 0.1)',
     transition: theme.transitions.create('transform', {
       duration: theme.transitions.duration.standard,
@@ -22,19 +27,19 @@ const NavbarContainer = styled(Drawer)(({ theme }) => ({
   },
 }));
 
-const FooterContainer = styled(Box)(({ theme }) => ({
+const FooterContainer = styled(Box)({
   position: 'fixed',
   bottom: 0,
   left: 0,
   width: '100%',
-  background: '#000000',
+  background: '#1a1a1a',
   display: 'flex',
   justifyContent: 'space-around',
   alignItems: 'center',
   padding: '10px 0',
   borderTop: '1px solid rgba(255, 255, 255, 0.1)',
   zIndex: 1300,
-}));
+});
 
 const LogoContainer = styled(Box)({
   padding: 20,
@@ -65,23 +70,18 @@ const NavItem = styled(Link)(({ theme, active, isMobile }) => ({
   gap: 8,
   flexDirection: isMobile ? 'column' : 'row',
   textDecoration: 'none',
-  color: '#ffffff',
+  color: active ? colors.accent : '#ffffff',
   padding: isMobile ? '5px 0' : '10px 15px',
   borderRadius: 6,
   fontSize: 12,
+  fontWeight: active ? 600 : 400,
   transition: theme.transitions.create(['all'], {
     duration: theme.transitions.duration.short,
     easing: theme.transitions.easing.easeInOut,
   }),
-  '&:hover': {
-    background: isMobile ? 'none' : 'rgba(255, 255, 255, 0.05)',
-    transform: isMobile ? 'none' : 'translateX(3px)',
-  },
-  ...(active && {
-    background: isMobile ? 'none' : 'rgba(255, 255, 255, 0.1)',
-    color: '#ffffff',
-    fontWeight: 600,
-    transform: isMobile ? 'none' : 'translateX(3px)',
+  ...(active && !isMobile && {
+    background: 'rgba(255, 255, 255, 0.1)',
+    transform: 'translateX(3px)',
   }),
 }));
 
@@ -102,6 +102,15 @@ const MenuButton = styled(IconButton)(({ theme }) => ({
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
     border: '1px solid rgba(255, 255, 255, 0.4)',
   },
+}));
+
+const GradientIcon = styled('div')(({ active }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  background: active ? colors.background : 'transparent',
+  WebkitBackgroundClip: active ? 'text' : 'initial',
+  WebkitTextFillColor: active ? 'transparent' : '#fff',
 }));
 
 const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
@@ -129,41 +138,76 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
     };
   }, [isMobile, sidebarOpen, setSidebarOpen]);
 
+  const isCabinetRoute =
+    location.pathname.startsWith('/cabinet') || location.pathname === '/register';
+
+  const isAuthenticated = !!localStorage.getItem('userData');
+
+  const links = isAuthenticated
+    ? [
+      {
+        to: '/',
+        label: 'Home',
+        icon: MilitaryTechIcon,
+        active: location.pathname === '/',
+      },
+      {
+        to: '/cabinet',
+        label: 'Cabinet',
+        icon: PersonIcon,
+        active: isCabinetRoute,
+      },
+    ]
+    : [
+      {
+        to: '/',
+        label: 'Home',
+        icon: MilitaryTechIcon,
+        active: location.pathname === '/',
+      },
+      {
+        to: '/register',
+        label: 'Register',
+        icon: PersonIcon,
+        active: isCabinetRoute,
+      },
+    ];
+
+  const renderLink = ({ to, label, icon: Icon, active }) => (
+    <NavItem to={to} active={active ? 1 : 0} isMobile={isMobile} key={to}>
+      <GradientIcon active={active}>
+        <Icon sx={{ fontSize: 24 }} />
+      </GradientIcon>
+      <Typography
+        sx={{
+          background: active ? colors.background : 'none',
+          WebkitBackgroundClip: active ? 'text' : 'none',
+          WebkitTextFillColor: active ? 'transparent' : '#fff',
+          fontSize: 12,
+        }}
+      >
+        {label}
+      </Typography>
+    </NavItem>
+  );
+
   if (isMobile) {
     return (
       <FooterContainer>
         <NavItems isMobile={true}>
-          <NavItem to="/" active={location.pathname === '/' ? 1 : 0} isMobile={true}>
-            <HomeFilledIcon sx={{ fontSize: 22, color: '#ffffff' }} />
-            <Typography sx={{ color: '#ffffff', fontSize: 12 }}>Главная</Typography>
-          </NavItem>
-          <NavItem to="/cabinet" active={location.pathname === '/cabinet' ? 1 : 0} isMobile={true}>
-            <AccountBoxIcon sx={{ fontSize: 22, color: '#ffffff' }} />
-            <Typography sx={{ color: '#ffffff', fontSize: 12 }}>Кабинет</Typography>
-          </NavItem>
+          {links.map(renderLink)}
         </NavItems>
       </FooterContainer>
     );
   }
 
   return (
-    <>
-      <NavbarContainer variant="permanent" open={true}>
-        <LogoContainer>
-          <LogoText>GameHub</LogoText>
-        </LogoContainer>
-        <NavItems>
-          <NavItem to="/" active={location.pathname === '/' ? 1 : 0}>
-            <HomeFilledIcon sx={{ fontSize: 22, color: '#ffffff' }} />
-            <Typography sx={{ color: '#ffffff' }}>Главная</Typography>
-          </NavItem>
-          <NavItem to="/cabinet" active={location.pathname === '/cabinet' ? 1 : 0}>
-            <AccountBoxIcon sx={{ fontSize: 22, color: '#ffffff' }} />
-            <Typography sx={{ color: '#ffffff' }}>Кабинет</Typography>
-          </NavItem>
-        </NavItems>
-      </NavbarContainer>
-    </>
+    <NavbarContainer variant="permanent" open={true}>
+      <LogoContainer>
+        <LogoText>ARMY HUB</LogoText>
+      </LogoContainer>
+      <NavItems>{links.map(renderLink)}</NavItems>
+    </NavbarContainer>
   );
 };
 
