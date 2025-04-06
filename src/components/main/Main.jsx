@@ -181,7 +181,7 @@ const Main = () => {
               </IconWrapper>
               <Box>
                 <LabelText>Serial Number</LabelText>
-                <ValueText>{index + 1}</ValueText>
+                <ValueText>#{index + 1}</ValueText>
               </Box>
             </CardRow>
 
@@ -254,7 +254,7 @@ const Main = () => {
               }}
             >
               <StyledTableBodyCell sx={{ textAlign: 'center' }}>
-                {index + 1}
+                #{index + 1}
               </StyledTableBodyCell>
               <StyledTableBodyCell>{user.id}</StyledTableBodyCell>
               <StyledTableBodyCell>{user.username}</StyledTableBodyCell>
