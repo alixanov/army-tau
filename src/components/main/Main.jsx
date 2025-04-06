@@ -25,12 +25,12 @@ import TagIcon from '@mui/icons-material/Tag';
 // Army color scheme
 const colors = {
   armyGreen: '#3D4A26', // Dark green for table headers
-  rowBackground: '#1a1a1a', // Dark grey-green for rows
+  rowBackground: 'transparent', // Прозрачный фон для строк
   black: '#1C2526', // Main dark background
   khaki: '#D4A017', // Golden hue for text headers
   white: '#EDEDED', // White for text in table
   accent: '#A32929', // Red accent
-  hoverBackground: '#3A4647', // Slightly lighter hover effect
+  hoverBackground: 'rgba(58, 70, 71, 0.3)', // Полупрозрачный ховер эффект
 };
 
 // Styled components
@@ -45,7 +45,7 @@ const MainContainer = styled('div')(({ theme }) => ({
 }));
 
 const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
-  background: colors.black, // Dark background
+  background: 'transparent', // Прозрачный фон для всей таблицы
   border: `1px solid ${colors.armyGreen}`,
   borderRadius: 8,
   boxShadow: '0 4px 16px rgba(0, 0, 0, 0.5)',
@@ -83,7 +83,7 @@ const StyledTableHeadCell = styled(TableCell)(({ theme }) => ({
 const StyledTableBodyCell = styled(TableCell)(({ theme }) => ({
   color: colors.white, // White text in rows
   fontSize: 14,
-  backgroundColor: colors.rowBackground, // Row background color
+  backgroundColor: colors.rowBackground, // Прозрачный фон для ячеек
   borderRight: `1px solid ${colors.armyGreen}50`, // Добавляем вертикальные линии
   '&:last-child': {
     borderRight: 'none', // Убираем линию у последнего столбца
@@ -96,14 +96,15 @@ const StyledTableBodyCell = styled(TableCell)(({ theme }) => ({
 
 // Mobile card styles
 const UserCard = styled(Card)(({ theme }) => ({
-  backgroundColor: colors.rowBackground, // Row background color
+  backgroundColor: colors.rowBackground, // Прозрачный фон для карточек
   color: colors.white,
   marginBottom: '16px',
   border: `1px solid ${colors.armyGreen}`,
   borderRadius: 6,
-  transition: 'transform 0.2s ease',
+  transition: 'transform 0.2s ease, background-color 0.3s ease',
   '&:hover': {
     transform: 'translateY(-4px)',
+    backgroundColor: colors.hoverBackground, // Ховер эффект для карточек
     boxShadow: `0 6px 12px rgba(0, 0, 0, 0.5)`,
   },
 }));
@@ -245,8 +246,11 @@ const Main = () => {
             <TableRow
               key={index}
               sx={{
-                '&:hover': { backgroundColor: colors.hoverBackground },
-                transition: 'background-color 0.3s ease',
+                '&:hover': {
+                  backgroundColor: colors.hoverBackground, // Полупрозрачный ховер эффект
+                  boxShadow: `0 2px 8px rgba(0, 0, 0, 0.3)`, // Тень при ховере
+                },
+                transition: 'background-color 0.3s ease, box-shadow 0.3s ease',
               }}
             >
               <StyledTableBodyCell sx={{ textAlign: 'center' }}>
