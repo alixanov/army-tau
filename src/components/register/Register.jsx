@@ -28,7 +28,7 @@ const generateUserId = () => {
 };
 
 const generateRandomRank = () => {
-  const ranks = ['Recruit', 'Private', 'Sergeant', 'Captain', 'General'];
+  const ranks = ['Meme Sniper', 'Bag Holder', 'Shill Sergeant', 'Token Scout', 'Airdrop Operator', 'Rug Survivor', 'Bullrun Believer', 'Market Medic', 'Cap Captain', 'Liquidity Leaker', 'Chart Whisperer', 'Volume Viking', 'Trench General', 'Degen Trooper','FUD Resistor'];
   return ranks[Math.floor(Math.random() * ranks.length)];
 };
 

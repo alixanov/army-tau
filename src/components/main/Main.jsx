@@ -285,7 +285,7 @@ const Main = () => {
           fontSize: isMobile ? '1.75rem' : '2.125rem',
         }}
       >
-        User List
+        Trenches Registry
       </Typography>
 
       {isMobile ? <MobileUserList /> : <DesktopUserList />}

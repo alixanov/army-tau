@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 import PersonIcon from '@mui/icons-material/Person';
@@ -75,33 +74,22 @@ const NavItem = styled(Link)(({ theme, active, isMobile }) => ({
   borderRadius: 6,
   fontSize: 12,
   fontWeight: active ? 600 : 400,
-  transition: theme.transitions.create(['all'], {
+  transition: theme.transitions.create(['background', 'transform', 'color'], {
     duration: theme.transitions.duration.short,
     easing: theme.transitions.easing.easeInOut,
   }),
+  '&:hover': {
+    background: isMobile ? 'none' : 'rgba(255, 255, 255, 0.1)', // Эффект ховера
+    color: colors.khaki, // Цвет при наведении
+    transform: isMobile ? 'none' : 'translateX(5px)', // Сдвиг при ховере
+  },
+  '&:active': {
+    transform: isMobile ? 'scale(0.95)' : 'translateX(2px)', // Эффект нажатия
+  },
   ...(active && !isMobile && {
-    background: 'rgba(255, 255, 255, 0.1)',
+    background: 'rgba(255, 255, 255, 0.15)', // Более яркий фон для активного состояния
     transform: 'translateX(3px)',
   }),
-}));
-
-const MenuButton = styled(IconButton)(({ theme }) => ({
-  position: 'fixed',
-  top: 20,
-  left: 20,
-  backgroundColor: '#000000',
-  color: '#ffffff',
-  zIndex: 1100,
-  width: 44,
-  height: 44,
-  border: '1px solid rgba(255, 255, 255, 0.2)',
-  transition: theme.transitions.create(['background-color', 'border'], {
-    duration: theme.transitions.duration.short,
-  }),
-  '&:hover': {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    border: '1px solid rgba(255, 255, 255, 0.4)',
-  },
 }));
 
 const GradientIcon = styled('div')(({ active }) => ({
@@ -110,7 +98,8 @@ const GradientIcon = styled('div')(({ active }) => ({
   justifyContent: 'center',
   background: active ? colors.background : 'transparent',
   WebkitBackgroundClip: active ? 'text' : 'initial',
-  WebkitTextFillColor: active ? 'transparent' : '#fff',
+  WebkitTextFillColor: active ? 'transparent' : '#ffffff',
+  transition: 'all 0.2s ease-in-out', // Плавный переход для иконки
 }));
 
 const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
@@ -120,10 +109,8 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
     const handleClickOutside = (event) => {
       if (isMobile && sidebarOpen) {
         const sidebar = document.querySelector('.MuiDrawer-paper');
-        const menuButton = document.querySelector('.menu-button');
         const clickedSidebar = sidebar && sidebar.contains(event.target);
-        const clickedMenuButton = menuButton && menuButton.contains(event.target);
-        if (!clickedSidebar && !clickedMenuButton) {
+        if (!clickedSidebar) {
           setSidebarOpen(false);
         }
       }
@@ -140,6 +127,7 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
 
   const isCabinetRoute =
     location.pathname.startsWith('/cabinet') || location.pathname === '/register';
+  const isRanksRoute = location.pathname === '/ranks';
 
   const isAuthenticated = !!localStorage.getItem('userData');
 
@@ -147,34 +135,51 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
     ? [
       {
         to: '/',
-        label: 'Home',
+        label: 'BASE CAMP',
         icon: MilitaryTechIcon,
         active: location.pathname === '/',
       },
       {
         to: '/cabinet',
-        label: 'Cabinet',
+        label: 'JOIN THE RANKS',
         icon: PersonIcon,
         active: isCabinetRoute,
+      },
+      {
+        to: '/ranks',
+        label: 'RANKS',
+        icon: PersonIcon,
+        active: isRanksRoute,
       },
     ]
     : [
       {
         to: '/',
-        label: 'Home',
+        label: 'BASE CAMP',
         icon: MilitaryTechIcon,
         active: location.pathname === '/',
       },
       {
         to: '/register',
-        label: 'Register',
+        label: 'JOIN THE RANKS',
         icon: PersonIcon,
         active: isCabinetRoute,
+      },
+      {
+        to: '/ranks',
+        label: 'RANKS',
+        icon: PersonIcon,
+        active: isRanksRoute,
       },
     ];
 
   const renderLink = ({ to, label, icon: Icon, active }) => (
-    <NavItem to={to} active={active ? 1 : 0} isMobile={isMobile} key={to}>
+    <NavItem
+      to={to}
+      active={active ? 1 : 0}
+      isMobile={isMobile}
+      key={to}
+    >
       <GradientIcon active={active}>
         <Icon sx={{ fontSize: 24 }} />
       </GradientIcon>
@@ -182,8 +187,9 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
         sx={{
           background: active ? colors.background : 'none',
           WebkitBackgroundClip: active ? 'text' : 'none',
-          WebkitTextFillColor: active ? 'transparent' : '#fff',
+          WebkitTextFillColor: active ? 'transparent' : '#ffffff',
           fontSize: 12,
+          transition: 'all 0.2s ease-in-out', // Плавный переход для текста
         }}
       >
         {label}
@@ -194,9 +200,7 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
   if (isMobile) {
     return (
       <FooterContainer>
-        <NavItems isMobile={true}>
-          {links.map(renderLink)}
-        </NavItems>
+        <NavItems isMobile={true}>{links.map(renderLink)}</NavItems>
       </FooterContainer>
     );
   }
