@@ -47,11 +47,22 @@ const LogoContainer = styled(Box)({
 });
 
 const LogoText = styled(Typography)({
-  color: '#ffffff',
-  fontSize: 24,
-  fontFamily: "'Inter', sans-serif",
+  color: 'white',
+  fontSize: 18,
+  fontFamily: "'Russo One', sans-serif",
   fontWeight: 700,
-  letterSpacing: '0.5px',
+  textTransform: 'uppercase',
+  letterSpacing: '1px',
+  textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+  marginBottom: 8,
+});
+
+const Subtitle = styled(Typography)({
+  color: '#ccc',
+  fontSize: 12,
+  fontStyle: 'italic',
+  lineHeight: 1.4,
+  textShadow: '1px 1px 2px rgba(0,0,0,0.4)',
 });
 
 const NavItems = styled(Box)(({ isMobile }) => ({
@@ -79,15 +90,16 @@ const NavItem = styled(Link)(({ theme, active, isMobile }) => ({
     easing: theme.transitions.easing.easeInOut,
   }),
   '&:hover': {
-    background: isMobile ? 'none' : 'rgba(255, 255, 255, 0.1)', // Эффект ховера
-    color: colors.khaki, // Цвет при наведении
-    transform: isMobile ? 'none' : 'translateX(5px)', // Сдвиг при ховере
+    background: isMobile ? 'none' : 'rgba(255, 255, 255, 0.1)',
+    color: colors.khaki,
+    transform: isMobile ? 'none' : 'translateX(5px)',
   },
   '&:active': {
-    transform: isMobile ? 'scale(0.95)' : 'translateX(2px)', // Эффект нажатия
+    transform: isMobile ? 'scale(0.95)' : 'translateX(2px)',
   },
-  ...(active && !isMobile && {
-    background: 'rgba(255, 255, 255, 0.15)', // Более яркий фон для активного состояния
+  ...(active &&
+    !isMobile && {
+    background: 'rgba(255, 255, 255, 0.15)',
     transform: 'translateX(3px)',
   }),
 }));
@@ -99,7 +111,7 @@ const GradientIcon = styled('div')(({ active }) => ({
   background: active ? colors.background : 'transparent',
   WebkitBackgroundClip: active ? 'text' : 'initial',
   WebkitTextFillColor: active ? 'transparent' : '#ffffff',
-  transition: 'all 0.2s ease-in-out', // Плавный переход для иконки
+  transition: 'all 0.2s ease-in-out',
 }));
 
 const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
@@ -130,6 +142,8 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
   const isRanksRoute = location.pathname === '/ranks';
 
   const isAuthenticated = !!localStorage.getItem('userData');
+  const userData = JSON.parse(localStorage.getItem('userData')) || {};
+  const username = userData.username || 'JOIN THE RANKS';
 
   const links = isAuthenticated
     ? [
@@ -141,7 +155,7 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
       },
       {
         to: '/cabinet',
-        label: 'JOIN THE RANKS',
+        label: username.toUpperCase(),
         icon: PersonIcon,
         active: isCabinetRoute,
       },
@@ -174,12 +188,7 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
     ];
 
   const renderLink = ({ to, label, icon: Icon, active }) => (
-    <NavItem
-      to={to}
-      active={active ? 1 : 0}
-      isMobile={isMobile}
-      key={to}
-    >
+    <NavItem to={to} active={active ? 1 : 0} isMobile={isMobile} key={to}>
       <GradientIcon active={active}>
         <Icon sx={{ fontSize: 24 }} />
       </GradientIcon>
@@ -189,7 +198,7 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
           WebkitBackgroundClip: active ? 'text' : 'none',
           WebkitTextFillColor: active ? 'transparent' : '#ffffff',
           fontSize: 12,
-          transition: 'all 0.2s ease-in-out', // Плавный переход для текста
+          transition: 'all 0.2s ease-in-out',
         }}
       >
         {label}
@@ -208,7 +217,8 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
   return (
     <NavbarContainer variant="permanent" open={true}>
       <LogoContainer>
-        <LogoText>ARMY HUB</LogoText>
+        <LogoText> Trenches</LogoText>
+        <Subtitle>Enlist. Get Ranked. Survive the Market.</Subtitle>
       </LogoContainer>
       <NavItems>{links.map(renderLink)}</NavItems>
     </NavbarContainer>

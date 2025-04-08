@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs'; // Для работы с датами
 
 // Color palette
 const colors = {
@@ -28,7 +29,11 @@ const generateUserId = () => {
 };
 
 const generateRandomRank = () => {
-  const ranks = ['Meme Sniper', 'Bag Holder', 'Shill Sergeant', 'Token Scout', 'Airdrop Operator', 'Rug Survivor', 'Bullrun Believer', 'Market Medic', 'Cap Captain', 'Liquidity Leaker', 'Chart Whisperer', 'Volume Viking', 'Trench General', 'Degen Trooper','FUD Resistor'];
+  const ranks = [
+    'Meme Sniper', 'Bag Holder', 'Shill Sergeant', 'Token Scout', 'Airdrop Operator',
+    'Rug Survivor', 'Bullrun Believer', 'Market Medic', 'Cap Captain', 'Liquidity Leaker',
+    'Chart Whisperer', 'Volume Viking', 'Trench General', 'Degen Trooper', 'FUD Resistor'
+  ];
   return ranks[Math.floor(Math.random() * ranks.length)];
 };
 
@@ -119,6 +124,7 @@ const Register = ({ setIsAuthenticated }) => {
   const [formData, setFormData] = useState({
     username: '',
     birthDate: null,
+    creationDate: null, // Добавляем creationDate в форму
   });
   const navigate = useNavigate();
 
@@ -139,9 +145,12 @@ const Register = ({ setIsAuthenticated }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const currentDate = new Date().toISOString(); // Текущая дата для creationDate
     const newUser = {
       ...formData,
       id: generateUserId(),
+      birthDate: formData.birthDate ? dayjs(formData.birthDate).format('YYYY-MM-DD') : 'N/A', // Форматируем дату рождения
+      creationDate: currentDate, // Добавляем дату создания
       rank: generateRandomRank(),
     };
 
@@ -200,34 +209,32 @@ const Register = ({ setIsAuthenticated }) => {
                 textField: {
                   sx: {
                     '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
-                      borderColor: colors.armyGreen, // Army green on hover
+                      borderColor: colors.armyGreen,
                     },
                     '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                      borderColor: colors.accent, // Red when focused
+                      borderColor: colors.accent,
                       boxShadow: `0 0 8px ${colors.accent}50`,
                     },
                     '& .MuiInputLabel-root': {
-                      color: colors.khaki, // Army khaki label color
+                      color: colors.khaki,
                     },
                     '& .MuiInputLabel-root.Mui-focused': {
-                      color: colors.accent, // Label turns red on focus
+                      color: colors.accent,
                     },
                   },
                 },
                 popper: {
                   sx: {
                     '& .MuiIconButton-root': {
-                      color: colors.accent, // Red color for calendar icon
+                      color: colors.accent,
                       '&:hover': {
-                        backgroundColor: `${colors.armyGreen}50`, // Army green hover effect
+                        backgroundColor: `${colors.armyGreen}50`,
                       },
                     },
                   },
                 },
               }}
             />
-
-            
           </LocalizationProvider>
         </FormGroup>
 
