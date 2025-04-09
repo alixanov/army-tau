@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Route, Routes, useLocation, Navigate } from 'react-router-dom';
-import { Navbar, Main, Cabinet, Register, Ranks } from '../components/';
+import { Navbar, Main, Cabinet, Register, Ranks, Missions } from '../components/';
 import { gsap } from 'gsap';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -228,16 +228,16 @@ const AppRoutes = () => {
         }}
       >
         <div className="loading-container">
-          <div className="loading-text">ЗАГРУЗКА</div>
+          <div className="loading-text">LOADING</div>
           <div className="loading-bar"></div>
         </div>
         <style jsx global>{`
           @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600&display=swap');
           
           .loading-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            display: 'flex',
+            flex-direction: 'column',
+            align-items: 'center';
           }
           
           .loading-text {
@@ -252,18 +252,18 @@ const AppRoutes = () => {
             height: 6px;
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid ${colors.khaki};
-            position: relative;
-            overflow: hidden;
+            position: 'relative',
+            overflow: 'hidden';
           }
           
           .loading-bar:before {
             content: '';
-            position: absolute;
+            position: 'absolute';
             left: -50%;
             width: 50%;
             height: 100%;
             background: ${colors.khaki};
-            animation: loading 1.5s infinite linear;
+            animation: 'loading 1.5s infinite linear';
           }
           
           @keyframes loading {
@@ -314,6 +314,7 @@ const AppRoutes = () => {
             }
           />
           <Route path="/ranks" element={<Ranks />} />
+          <Route path="/missions" element={<Missions />} />
         </Routes>
       </AppContainer>
 
@@ -330,7 +331,7 @@ const AppRoutes = () => {
         }
         
         .crosshair {
-          position: absolute;
+          position: 'absolute';
           width: 120px;
           height: 120px;
           border-radius: 50%;
@@ -340,7 +341,7 @@ const AppRoutes = () => {
         
         .crosshair:before, .crosshair:after {
           content: '';
-          position: absolute;
+          position: 'absolute';
           background: ${colors.khaki};
         }
         
@@ -363,7 +364,7 @@ const AppRoutes = () => {
         .crosshair:nth-child(3) { top: 60%; right: 20%; }
         
         .radar-blip {
-          position: absolute;
+          position: 'absolute';
           width: 60px;
           height: 60px;
           border-radius: 50%;
@@ -378,7 +379,7 @@ const AppRoutes = () => {
         .radar-blip:nth-child(8) { top: 80%; right: 25%; }
         
         .weapon-silhouette {
-          position: absolute;
+          position: 'absolute';
           opacity: 0.3;
         }
         
@@ -388,6 +389,13 @@ const AppRoutes = () => {
 
         *::-webkit-scrollbar-thumb:hover {
           background: ${colors.camouflage};
+        }
+
+        /* Медиа-запрос для мобильного режима */
+        @media (max-width: 768px) {
+          .app-container {
+            padding-bottom: 80px; /* Отступ снизу для мобильного режима */
+          }
         }
       `}</style>
     </>

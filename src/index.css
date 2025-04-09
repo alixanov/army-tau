@@ -30,6 +30,8 @@ body {
 @media (max-width: 768px) {
   .routes__container {
     margin-left: 0;
+    margin-bottom: 200px;
+    padding-bottom: 200px;
   
   }
 }

@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Typography from '@mui/material/Typography';
 import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
+import GamepadIcon from '@mui/icons-material/Gamepad';
 import PersonIcon from '@mui/icons-material/Person';
 
 const colors = {
@@ -165,6 +166,12 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
         icon: PersonIcon,
         active: isRanksRoute,
       },
+      {
+        to: '/missions',
+        label: 'MISSIONS',
+        icon: GamepadIcon,
+        active: location.pathname === '/missions',
+      },
     ]
     : [
       {
@@ -184,6 +191,12 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
         label: 'RANKS',
         icon: PersonIcon,
         active: isRanksRoute,
+      },
+      {
+        to: '/missions',
+        label: 'MISSIONS',
+        icon: GamepadIcon,
+        active: location.pathname === '/missions',
       },
     ];
 
