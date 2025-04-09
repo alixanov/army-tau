@@ -15,7 +15,9 @@ import {
   Card,
   CardContent,
   Divider,
+  Button,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import PersonIcon from '@mui/icons-material/Person';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import BadgeIcon from '@mui/icons-material/Badge';
@@ -144,6 +146,23 @@ const ValueText = styled(Typography)({
   fontWeight: 400,
 });
 
+const JoinButton = styled(Button)({
+  backgroundColor: colors.accent,
+  color: colors.white,
+  fontFamily: "'Montserrat', sans-serif",
+  fontWeight: 600,
+  fontSize: '16px',
+  padding: '10px 20px',
+  borderRadius: '6px',
+  textTransform: 'uppercase',
+  letterSpacing: '1px',
+  transition: 'transform 0.2s ease, background-color 0.3s ease',
+  '&:hover': {
+    backgroundColor: '#B73232',
+    transform: 'scale(1.05)',
+  },
+});
+
 // Date formatting function
 const formatDateToDogTag = (date) => {
   if (!date) return 'N/A';
@@ -160,46 +179,70 @@ const formatDateToDogTag = (date) => {
   }
 };
 
-// Static temporary data with creationDate
+// Static temporary data with fixed creation dates
 const staticTempData = [
-  { id: 'SOLDIER-0001', username: 'Trooper1', birthDate: '1990-05-15', creationDate: new Date().toISOString(), rank: 'Meme Sniper' },
-  { id: 'SOLDIER-0002', username: 'Trooper2', birthDate: '1987-12-22', creationDate: new Date().toISOString(), rank: 'Bag Holder' },
-  { id: 'SOLDIER-0003', username: 'Trooper3', birthDate: '1995-08-09', creationDate: new Date().toISOString(), rank: 'Shill Sergeant' },
-  { id: 'SOLDIER-0004', username: 'Trooper4', birthDate: '1992-03-30', creationDate: new Date().toISOString(), rank: 'Token Scout' },
-  { id: 'SOLDIER-0005', username: 'Trooper5', birthDate: '1985-11-11', creationDate: new Date().toISOString(), rank: 'Airdrop Operator' },
-  { id: 'SOLDIER-0006', username: 'Trooper6', birthDate: '1998-07-07', creationDate: new Date().toISOString(), rank: 'Rug Survivor' },
-  { id: 'SOLDIER-0007', username: 'Trooper7', birthDate: '1993-09-14', creationDate: new Date().toISOString(), rank: 'Bullrun Believer' },
-  { id: 'SOLDIER-0008', username: 'Trooper8', birthDate: '1989-04-25', creationDate: new Date().toISOString(), rank: 'Market Medic' },
-  { id: 'SOLDIER-0009', username: 'Trooper9', birthDate: '1996-01-18', creationDate: new Date().toISOString(), rank: 'Cap Captain' },
-  { id: 'SOLDIER-0010', username: 'Trooper10', birthDate: '1991-06-03', creationDate: new Date().toISOString(), rank: 'Liquidity Leaker' },
+  { id: 'SOLDIER-0001', username: 'Trooper1', birthDate: '1990-05-15', creationDate: '2025-01-01T00:00:00Z', rank: 'Meme Sniper' },
+  { id: 'SOLDIER-0002', username: 'Trooper2', birthDate: '1987-12-22', creationDate: '2025-01-02T00:00:00Z', rank: 'Bag Holder' },
+  { id: 'SOLDIER-0003', username: 'Trooper3', birthDate: '1995-08-09', creationDate: '2025-01-03T00:00:00Z', rank: 'Shill Sergeant' },
+  { id: 'SOLDIER-0004', username: 'Trooper4', birthDate: '1992-03-30', creationDate: '2025-01-04T00:00:00Z', rank: 'Token Scout' },
+  { id: 'SOLDIER-0005', username: 'Trooper5', birthDate: '1985-11-11', creationDate: '2025-01-05T00:00:00Z', rank: 'Airdrop Operator' },
+  { id: 'SOLDIER-0006', username: 'Trooper6', birthDate: '1998-07-07', creationDate: '2025-01-06T00:00:00Z', rank: 'Rug Survivor' },
+  { id: 'SOLDIER-0007', username: 'Trooper7', birthDate: '1993-09-14', creationDate: '2025-01-07T00:00:00Z', rank: 'Bullrun Believer' },
+  { id: 'SOLDIER-0008', username: 'Trooper8', birthDate: '1989-04-25', creationDate: '2025-01-08T00:00:00Z', rank: 'Market Medic' },
+  { id: 'SOLDIER-0009', username: 'Trooper9', birthDate: '1996-01-18', creationDate: '2025-01-09T00:00:00Z', rank: 'Cap Captain' },
+  { id: 'SOLDIER-0010', username: 'Trooper10', birthDate: '1991-06-03', creationDate: '2025-01-10T00:00:00Z', rank: 'Liquidity Leaker' },
 ];
 
 const Main = () => {
   const [users, setUsers] = useState([]);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
 
+  // Проверка авторизации
+  useEffect(() => {
+    const storedData = localStorage.getItem('userData');
+    if (storedData) {
+      try {
+        const parsedData = JSON.parse(storedData);
+        if (parsedData && parsedData.id) {
+          setIsAuthenticated(true);
+        } else {
+          setIsAuthenticated(false);
+        }
+      } catch {
+        setIsAuthenticated(false);
+      }
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, []);
+
+  // Загрузка пользователей
   useEffect(() => {
     const storedUsers = JSON.parse(localStorage.getItem('users'));
     console.log('Stored users from localStorage:', storedUsers);
 
     if (storedUsers && storedUsers.length > 0) {
-      const validatedUsers = storedUsers.map(user => ({
-        ...user,
-        birthDate: user.birthDate || 'N/A',
-        creationDate: user.creationDate || new Date().toISOString(), // Используем текущую дату, если creationDate отсутствует
-      }));
-      setUsers(validatedUsers);
+      // Используем данные из localStorage без перезаписи creationDate
+      setUsers(storedUsers);
     } else {
+      // Если данных в localStorage нет, используем staticTempData и сохраняем их
       console.log('Using staticTempData:', staticTempData);
-      const updatedStaticData = staticTempData.map(user => ({
-        ...user,
-        creationDate: new Date().toISOString(), // Устанавливаем текущую дату при первом использовании
-      }));
-      localStorage.setItem('users', JSON.stringify(updatedStaticData));
-      setUsers(updatedStaticData);
+      localStorage.setItem('users', JSON.stringify(staticTempData));
+      setUsers(staticTempData);
     }
   }, []);
+
+  // Обработчик нажатия на кнопку
+  const handleJoinClick = () => {
+    if (isAuthenticated) {
+      navigate('/cabinet');
+    } else {
+      navigate('/register');
+    }
+  };
 
   const MobileUserList = () => (
     <Box sx={{ mt: 2 }}>
@@ -341,6 +384,12 @@ const Main = () => {
       >
         Trenches Registry
       </Typography>
+
+      <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
+        <JoinButton onClick={handleJoinClick}>
+          Join the Trenches
+        </JoinButton>
+      </Box>
 
       {isMobile ? <MobileUserList /> : <DesktopUserList />}
     </MainContainer>

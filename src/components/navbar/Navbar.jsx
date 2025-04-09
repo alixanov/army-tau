@@ -182,7 +182,7 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
       },
       {
         to: '/register',
-        label: 'JOIN THE RANKS',
+        label: 'REGISTER',
         icon: PersonIcon,
         active: isCabinetRoute,
       },

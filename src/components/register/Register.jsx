@@ -180,7 +180,7 @@ const Register = ({ setIsAuthenticated }) => {
           WebkitTextFillColor: 'transparent',
         }}
       >
-        Registration
+        Join the Tranches
       </Typography>
       <Form onSubmit={handleSubmit}>
         <FormGroup>
