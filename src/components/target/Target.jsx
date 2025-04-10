@@ -22,7 +22,7 @@ const TargetContainer = styled(Box)({
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  minHeight: '100vh',
+  minHeight: '80vh',
   // backgroundColor: colors.primary,
   padding: '20px',
   textAlign: 'center',
@@ -42,6 +42,8 @@ const StyledHeading = styled(Typography)({
   animationFillMode: 'forwards', // Сохраняет конечное состояние анимации
 });
 
+
+
 // Стили для параграфа
 const StyledParagraph = styled(Typography)({
   color: colors.textLight,
@@ -57,7 +59,7 @@ const StyledParagraph = styled(Typography)({
 const Target = () => {
   return (
     <TargetContainer className="target__container">
-      <StyledHeading variant="h1">Coming Soon</StyledHeading>
+      <StyledHeading variant="h2">Coming Soon</StyledHeading>
       <StyledParagraph variant="body1">
         This page is currently under development and will be available soon.
       </StyledParagraph>
