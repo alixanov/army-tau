@@ -1,4 +1,8 @@
 .military-date {
+  width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: 'Courier New', monospace;
   position: relative;
   background: repeating-linear-gradient(45deg,

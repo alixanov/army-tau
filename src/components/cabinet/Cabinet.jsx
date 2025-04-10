@@ -21,18 +21,18 @@ const fadeIn = keyframes`
 `;
 
 const pulse = keyframes`
-  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(170, 30, 30, 0.7); }
-  70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(170, 30, 30, 0); }
-  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(170, 30, 30, 0); }
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(61, 74, 38, 0.7); }
+  70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(61, 74, 38, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(61, 74, 38, 0); }
 `;
 
 const glow = keyframes`
-  0% { text-shadow: 0 0 5px rgba(170, 30, 30, 0.5); }
-  50% { text-shadow: 0 0 15px rgba(170, 30, 30, 0.8), 0 0 25px rgba(170, 30, 30, 0.5); }
-  100% { text-shadow: 0 0 5px rgba(170, 30, 30, 0.5); }
+  0% { text-shadow: 0 0 5px rgba(61, 74, 38, 0.5); }
+  50% { text-shadow: 0 0 15px rgba(61, 74, 38, 0.8), 0 0 25px rgba(61, 74, 38, 0.5); }
+  100% { text-shadow: 0 0 5px rgba(61, 74, 38, 0.5); }
 `;
 
-// Updated color palette to match the screenshot
+// Updated color palette to match the screenshot and add armyGreen
 const colors = {
   primary: '#aa1e1e', // Dark red color from the register button
   secondary: '#c68c53', // Orange-brown from "REGISTRATION" text
@@ -41,6 +41,7 @@ const colors = {
   hoverPrimary: '#c52626',
   black: '#1C1C1C',
   textLight: '#c68c53',
+  armyGreen: '#3D4A26', // Добавлен зеленый цвет в милитари-стиле
 };
 
 // Стилизованные компоненты
@@ -68,6 +69,9 @@ const ProfileBox = styled(Box)({
   opacity: 0,
   animation: `${fadeIn} 1.2s ease-out forwards`,
   animationDelay: '0.3s',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center', // Центрирование содержимого, включая кнопку
 });
 
 const InfoSection = styled(Box)({
@@ -80,6 +84,7 @@ const InfoSection = styled(Box)({
   animation: `${fadeIn} 0.8s ease-out forwards`,
   display: 'flex',
   alignItems: 'center',
+  width: '100%', // Устанавливаем ширину для единообразия
   '&:nth-of-type(1)': { animationDelay: '0.5s' },
   '&:nth-of-type(2)': { animationDelay: '0.6s' },
   '&:nth-of-type(3)': { animationDelay: '0.7s' },
@@ -88,7 +93,7 @@ const InfoSection = styled(Box)({
   '&:hover': {
     transform: 'translateX(5px)',
     backgroundColor: colors.darkGrayHover,
-    boxShadow: `0 0 15px rgba(170, 30, 30, 0.3)`,
+    boxShadow: `0 0 15px rgba(61, 74, 38, 0.3)`, // Обновлен цвет тени под armyGreen
   },
 });
 
@@ -100,22 +105,23 @@ const IconWrapper = styled(Box)({
 const LogoutButton = styled(Button)({
   marginTop: '20px',
   padding: '12px 30px',
-  backgroundColor: 'transparent',
-  color: colors.primary,
+  backgroundColor: colors.armyGreen, // Зеленый фон
+  color: '#ffffff', // Белый текст для контраста
   fontWeight: 'bold',
   textTransform: 'uppercase',
   letterSpacing: '2px',
-  border: `2px solid ${colors.primary}`,
-  borderRadius: '0px', // Прямые углы для милитари-стиля
+  border: '2px solid #ffd700', // Золотой бордер
+  borderRadius: '8px', // Добавлен радиус для скругленных углов
   transition: 'all 0.3s ease',
   opacity: 0,
-  animation: `${fadeIn} 1s ease-out forwards`, // Плавное появление вместо пульсации
+  animation: `${fadeIn} 1s ease-out forwards`,
   animationDelay: '1s',
   '&:hover': {
-    backgroundColor: colors.primary,
-    color: colors.black,
+    backgroundColor: '#4a5c31', // Более светлый оттенок armyGreen при наведении
+    borderColor: '#ffd700', // Золотой бордер сохраняется при наведении
+    color: '#ffffff',
     transform: 'translateY(-3px)',
-    boxShadow: `0 5px 15px rgba(170, 30, 30, 0.5)`,
+    boxShadow: `0 5px 15px rgba(61, 74, 38, 0.5)`,
   },
 });
 
@@ -162,7 +168,7 @@ const Cabinet = ({ setIsAuthenticated }) => {
     const day = d.getDate().toString().padStart(2, '0');
     const month = (d.getMonth() + 1).toString().padStart(2, '0');
     const year = d.getFullYear();
-    return `${day}◆${month}◆${year}`;
+    return `${day}-${month}-${year}`;
   };
 
   const formattedDate = formatDateToDogTag(userData.birthDate);
@@ -235,7 +241,7 @@ const Cabinet = ({ setIsAuthenticated }) => {
         </InfoSection>
 
         <LogoutButton onClick={handleLogout} startIcon={<LogoutIcon />}>
-          LOGOUT
+          COMPLETE
         </LogoutButton>
       </ProfileBox>
     </CabinetContainer>

@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 import GamepadIcon from '@mui/icons-material/Gamepad';
 import PersonIcon from '@mui/icons-material/Person';
+import CloseIcon from '@mui/icons-material/Close';
 
 const colors = {
   background: 'linear-gradient(90deg, #A32929, #A8A14E)',
@@ -172,6 +173,12 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
         icon: GamepadIcon,
         active: location.pathname === '/missions',
       },
+      { 
+        to: '/target',
+        label: 'Target',
+        icon: CloseIcon,
+        active: location.pathname === '/target',
+      },
     ]
     : [
       {
@@ -230,7 +237,7 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
   return (
     <NavbarContainer variant="permanent" open={true}>
       <LogoContainer>
-        <LogoText> Trenches</LogoText>
+        <LogoText>Trench Deployment</LogoText>
         <Subtitle>Enlist. Get Ranked. Survive the Market.</Subtitle>
       </LogoContainer>
       <NavItems>{links.map(renderLink)}</NavItems>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Route, Routes, useLocation, Navigate } from 'react-router-dom';
-import { Navbar, Main, Cabinet, Register, Ranks, Missions } from '../components/';
+import { Navbar, Main, Cabinet, Register, Ranks, Missions,Target } from '../components/';
 import { gsap } from 'gsap';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -315,6 +315,7 @@ const AppRoutes = () => {
           />
           <Route path="/ranks" element={<Ranks />} />
           <Route path="/missions" element={<Missions />} />
+          <Route path="/target" element={<Target />} />
         </Routes>
       </AppContainer>
 

@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs from 'dayjs'; // Для работы с датами
+import dayjs from 'dayjs';
 
 // Color palette
 const colors = {
@@ -69,7 +69,7 @@ const StyledTextField = styled(TextField)({
   '& .MuiOutlinedInput-root': {
     borderRadius: 8,
     backgroundColor: `${colors.militaryGray}cc`,
-    color: colors.white,
+    color: colors.white, // Цвет текста ввода
     fontFamily: "'Montserrat', sans-serif",
     fontWeight: 500,
     transition: 'all 0.3s ease',
@@ -85,7 +85,7 @@ const StyledTextField = styled(TextField)({
     },
   },
   '& .MuiInputBase-input': {
-    color: colors.white,
+    color: colors.white, // Устанавливаем белый цвет для текста в поле ввода
     padding: '14px 16px',
   },
   '& .MuiInputLabel-root': {
@@ -124,7 +124,7 @@ const Register = ({ setIsAuthenticated }) => {
   const [formData, setFormData] = useState({
     username: '',
     birthDate: null,
-    creationDate: null, // Добавляем creationDate в форму
+    creationDate: null,
   });
   const navigate = useNavigate();
 
@@ -145,12 +145,12 @@ const Register = ({ setIsAuthenticated }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const currentDate = new Date().toISOString(); // Текущая дата для creationDate
+    const currentDate = new Date().toISOString();
     const newUser = {
       ...formData,
       id: generateUserId(),
-      birthDate: formData.birthDate ? dayjs(formData.birthDate).format('YYYY-MM-DD') : 'N/A', // Форматируем дату рождения
-      creationDate: currentDate, // Добавляем дату создания
+      birthDate: formData.birthDate ? dayjs(formData.birthDate).format('YYYY-MM-DD') : 'N/A',
+      creationDate: currentDate,
       rank: generateRandomRank(),
     };
 
@@ -162,6 +162,7 @@ const Register = ({ setIsAuthenticated }) => {
     setIsAuthenticated(true);
     navigate('/cabinet');
   };
+
 
   return (
     <RegisterContainer>
@@ -180,7 +181,7 @@ const Register = ({ setIsAuthenticated }) => {
           WebkitTextFillColor: 'transparent',
         }}
       >
-        Join the Tranches
+        JOIN THE TRENCHES
       </Typography>
       <Form onSubmit={handleSubmit}>
         <FormGroup>
@@ -208,15 +209,18 @@ const Register = ({ setIsAuthenticated }) => {
               slotProps={{
                 textField: {
                   sx: {
+                    '& .MuiInputBase-input': {
+                      color: colors.white, // Белый цвет текста даты
+                    },
                     '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
-                      borderColor: colors.armyGreen,
+                      borderColor: colors.khaki,
                     },
                     '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
                       borderColor: colors.accent,
                       boxShadow: `0 0 8px ${colors.accent}50`,
                     },
                     '& .MuiInputLabel-root': {
-                      color: colors.khaki,
+                      color: `${colors.khaki}cc`,
                     },
                     '& .MuiInputLabel-root.Mui-focused': {
                       color: colors.accent,
@@ -241,6 +245,7 @@ const Register = ({ setIsAuthenticated }) => {
         <SubmitButton type="submit">Register</SubmitButton>
       </Form>
     </RegisterContainer>
+    
   );
 };
 
