@@ -181,16 +181,16 @@ const formatDateToDogTag = (date) => {
 
 // Static temporary data with fixed creation dates
 const staticTempData = [
-  { id: 'SOLDIER-0001', username: 'Trooper1', birthDate: '1990-05-15', creationDate: '2025-01-01T00:00:00Z', rank: 'Meme Sniper' },
-  { id: 'SOLDIER-0002', username: 'Trooper2', birthDate: '1987-12-22', creationDate: '2025-01-02T00:00:00Z', rank: 'Bag Holder' },
-  { id: 'SOLDIER-0003', username: 'Trooper3', birthDate: '1995-08-09', creationDate: '2025-01-03T00:00:00Z', rank: 'Shill Sergeant' },
-  { id: 'SOLDIER-0004', username: 'Trooper4', birthDate: '1992-03-30', creationDate: '2025-01-04T00:00:00Z', rank: 'Token Scout' },
-  { id: 'SOLDIER-0005', username: 'Trooper5', birthDate: '1985-11-11', creationDate: '2025-01-05T00:00:00Z', rank: 'Airdrop Operator' },
-  { id: 'SOLDIER-0006', username: 'Trooper6', birthDate: '1998-07-07', creationDate: '2025-01-06T00:00:00Z', rank: 'Rug Survivor' },
-  { id: 'SOLDIER-0007', username: 'Trooper7', birthDate: '1993-09-14', creationDate: '2025-01-07T00:00:00Z', rank: 'Bullrun Believer' },
-  { id: 'SOLDIER-0008', username: 'Trooper8', birthDate: '1989-04-25', creationDate: '2025-01-08T00:00:00Z', rank: 'Market Medic' },
-  { id: 'SOLDIER-0009', username: 'Trooper9', birthDate: '1996-01-18', creationDate: '2025-01-09T00:00:00Z', rank: 'Cap Captain' },
-  { id: 'SOLDIER-0010', username: 'Trooper10', birthDate: '1991-06-03', creationDate: '2025-01-10T00:00:00Z', rank: 'Liquidity Leaker' },
+  // { id: 'SOLDIER-0001', username: 'Trooper1', birthDate: '1990-05-15', creationDate: '2025-01-01T00:00:00Z', rank: 'Meme Sniper' },
+  // { id: 'SOLDIER-0002', username: 'Trooper2', birthDate: '1987-12-22', creationDate: '2025-01-02T00:00:00Z', rank: 'Bag Holder' },
+  // { id: 'SOLDIER-0003', username: 'Trooper3', birthDate: '1995-08-09', creationDate: '2025-01-03T00:00:00Z', rank: 'Shill Sergeant' },
+  // { id: 'SOLDIER-0004', username: 'Trooper4', birthDate: '1992-03-30', creationDate: '2025-01-04T00:00:00Z', rank: 'Token Scout' },
+  // { id: 'SOLDIER-0005', username: 'Trooper5', birthDate: '1985-11-11', creationDate: '2025-01-05T00:00:00Z', rank: 'Airdrop Operator' },
+  // { id: 'SOLDIER-0006', username: 'Trooper6', birthDate: '1998-07-07', creationDate: '2025-01-06T00:00:00Z', rank: 'Rug Survivor' },
+  // { id: 'SOLDIER-0007', username: 'Trooper7', birthDate: '1993-09-14', creationDate: '2025-01-07T00:00:00Z', rank: 'Bullrun Believer' },
+  // { id: 'SOLDIER-0008', username: 'Trooper8', birthDate: '1989-04-25', creationDate: '2025-01-08T00:00:00Z', rank: 'Market Medic' },
+  // { id: 'SOLDIER-0009', username: 'Trooper9', birthDate: '1996-01-18', creationDate: '2025-01-09T00:00:00Z', rank: 'Cap Captain' },
+  // { id: 'SOLDIER-0010', username: 'Trooper10', birthDate: '1991-06-03', creationDate: '2025-01-10T00:00:00Z', rank: 'Liquidity Leaker' },
 ];
 
 const Main = () => {
