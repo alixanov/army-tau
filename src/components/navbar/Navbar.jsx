@@ -9,12 +9,14 @@ import GamepadIcon from '@mui/icons-material/Gamepad';
 import PersonIcon from '@mui/icons-material/Person';
 import CloseIcon from '@mui/icons-material/Close';
 
+// Army color scheme
 const colors = {
   background: 'linear-gradient(90deg, #A32929, #A8A14E)',
   accent: '#A32929',
   khaki: '#A8A14E',
 };
 
+// Styled components
 const NavbarContainer = styled(Drawer)(({ theme }) => ({
   '& .MuiDrawer-paper': {
     width: 250,
@@ -142,6 +144,7 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
   const isCabinetRoute =
     location.pathname.startsWith('/cabinet') || location.pathname === '/register';
   const isRanksRoute = location.pathname === '/ranks';
+  const isTargetRoute = location.pathname === '/target'; // Добавляем проверку для /target
 
   const isAuthenticated = !!localStorage.getItem('userData');
   const userData = JSON.parse(localStorage.getItem('userData')) || {};
@@ -173,11 +176,11 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
         icon: GamepadIcon,
         active: location.pathname === '/missions',
       },
-      { 
+      {
         to: '/target',
-        label: 'Target',
+        label: 'TARGET',
         icon: CloseIcon,
-        active: location.pathname === '/target',
+        active: isTargetRoute, // Используем отдельную переменную для /target
       },
     ]
     : [
@@ -205,8 +208,16 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
         icon: GamepadIcon,
         active: location.pathname === '/missions',
       },
+      {
+        to: 'https://x.com/trenchdeploy',
+        label: 'TARGET',
+        icon: CloseIcon,
+        active: isTargetRoute, // Добавляем /target и для неавторизованных
+      },
     ];
 
+
+    
   const renderLink = ({ to, label, icon: Icon, active }) => (
     <NavItem to={to} active={active ? 1 : 0} isMobile={isMobile} key={to}>
       <GradientIcon active={active}>
