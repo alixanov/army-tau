@@ -256,6 +256,8 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
       },
     ];
 
+    
+
   const renderLink = ({ to, label, icon: Icon, active, isExternal }) => {
     const ItemComponent = isExternal ? ExternalNavItem : NavItem;
     return (
