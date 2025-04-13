@@ -211,8 +211,8 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
         isExternal: false,
       },
       {
-        to: '/target',
-        label: 'TARGET',
+        to: "https://x.com/trenchdeploy",
+        label: 'X',
         icon: CloseIcon,
         active: isTargetRoute,
         isExternal: false,
@@ -249,7 +249,7 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
       },
       {
         to: 'https://x.com/trenchdeploy',
-        label: 'TARGET',
+        label: '',
         icon: CloseIcon,
         active: false,
         isExternal: true,
