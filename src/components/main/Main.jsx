@@ -23,7 +23,6 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import BadgeIcon from '@mui/icons-material/Badge';
 import FingerprintIcon from '@mui/icons-material/Fingerprint';
 import TagIcon from '@mui/icons-material/Tag';
-import EventIcon from '@mui/icons-material/Event';
 
 // Army color scheme
 const colors = {
@@ -225,7 +224,7 @@ const Main = () => {
     console.log('Stored users from localStorage:', storedUsers);
 
     if (storedUsers && storedUsers.length > 0) {
-      // Используем данные из localStorage без перезаписи creationDate
+      // Используем данные из localStorage
       setUsers(storedUsers);
     } else {
       // Если данных в localStorage нет, используем staticTempData и сохраняем их
@@ -290,16 +289,6 @@ const Main = () => {
               <Divider sx={{ my: 1, borderColor: `${colors.armyGreen}50` }} />
               <CardRow>
                 <IconWrapper>
-                  <EventIcon fontSize="small" />
-                </IconWrapper>
-                <Box>
-                  <LabelText>Creation Date</LabelText>
-                  <ValueText>{formatDateToDogTag(user.creationDate)}</ValueText>
-                </Box>
-              </CardRow>
-              <Divider sx={{ my: 1, borderColor: `${colors.armyGreen}50` }} />
-              <CardRow>
-                <IconWrapper>
                   <BadgeIcon fontSize="small" />
                 </IconWrapper>
                 <Box>
@@ -325,14 +314,13 @@ const Main = () => {
             <StyledTableHeadCell sx={{ width: '20%' }}>ID</StyledTableHeadCell>
             <StyledTableHeadCell sx={{ width: '20%' }}>Username</StyledTableHeadCell>
             <StyledTableHeadCell sx={{ width: '20%' }}>Date of Birth</StyledTableHeadCell>
-            <StyledTableHeadCell sx={{ width: '20%' }}>Creation Date</StyledTableHeadCell>
             <StyledTableHeadCell sx={{ width: '20%' }}>Rank</StyledTableHeadCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {users.length === 0 ? (
             <TableRow>
-              <StyledTableBodyCell colSpan={6} sx={{ textAlign: 'center' }}>
+              <StyledTableBodyCell colSpan={5} sx={{ textAlign: 'center' }}>
                 No users available
               </StyledTableBodyCell>
             </TableRow>
@@ -354,7 +342,6 @@ const Main = () => {
                 <StyledTableBodyCell>{user.id}</StyledTableBodyCell>
                 <StyledTableBodyCell>{user.username}</StyledTableBodyCell>
                 <StyledTableBodyCell>{formatDateToDogTag(user.birthDate)}</StyledTableBodyCell>
-                <StyledTableBodyCell>{formatDateToDogTag(user.creationDate)}</StyledTableBodyCell>
                 <StyledTableBodyCell>{user.rank || 'PRIVATE'}</StyledTableBodyCell>
               </TableRow>
             ))

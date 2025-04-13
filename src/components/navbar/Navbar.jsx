@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 import GamepadIcon from '@mui/icons-material/Gamepad';
 import PersonIcon from '@mui/icons-material/Person';
-import CloseIcon from '@mui/icons-material/Close';
+import XIcon from '@mui/icons-material/X';
 
 // Army color scheme
 const colors = {
@@ -77,6 +77,12 @@ const NavItems = styled(Box)(({ isMobile }) => ({
   justifyContent: 'space-around',
   width: '100%',
 }));
+
+const SocialContainer = styled(Box)({
+  marginTop: 'auto',
+  padding: 20,
+  borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+});
 
 const NavItem = styled(Link)(({ theme, active, isMobile }) => ({
   display: 'flex',
@@ -210,13 +216,6 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
         active: location.pathname === '/missions',
         isExternal: false,
       },
-      {
-        to: "https://x.com/trenchdeploy",
-        label: 'X',
-        icon: CloseIcon,
-        active: isTargetRoute,
-        isExternal: false,
-      },
     ]
     : [
       {
@@ -247,16 +246,15 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
         active: location.pathname === '/missions',
         isExternal: false,
       },
-      {
-        to: 'https://x.com/trenchdeploy',
-        label: '',
-        icon: CloseIcon,
-        active: false,
-        isExternal: true,
-      },
     ];
 
-    
+  const socialLink = {
+    to: 'https://x.com/trenchdeploy',
+    label: 'FOLLOW US',
+    icon: XIcon,
+    active: false,
+    isExternal: true,
+  };
 
   const renderLink = ({ to, label, icon: Icon, active, isExternal }) => {
     const ItemComponent = isExternal ? ExternalNavItem : NavItem;
@@ -289,7 +287,10 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
   if (isMobile) {
     return (
       <FooterContainer>
-        <NavItems isMobile={true}>{links.map(renderLink)}</NavItems>
+        <NavItems isMobile={true}>
+          {links.map(renderLink)}
+          {renderLink(socialLink)}
+        </NavItems>
       </FooterContainer>
     );
   }
@@ -301,6 +302,7 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
         <Subtitle>Enlist. Get Ranked. Survive the Market.</Subtitle>
       </LogoContainer>
       <NavItems>{links.map(renderLink)}</NavItems>
+      <SocialContainer>{renderLink(socialLink)}</SocialContainer>
     </NavbarContainer>
   );
 };
