@@ -158,6 +158,8 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
         icon: MilitaryTechIcon,
         active: location.pathname === '/',
       },
+
+      
       {
         to: '/cabinet',
         label: username.toUpperCase(),
@@ -217,7 +219,7 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
     ];
 
 
-    
+
   const renderLink = ({ to, label, icon: Icon, active }) => (
     <NavItem to={to} active={active ? 1 : 0} isMobile={isMobile} key={to}>
       <GradientIcon active={active}>
