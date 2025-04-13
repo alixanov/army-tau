@@ -108,6 +108,36 @@ const NavItem = styled(Link)(({ theme, active, isMobile }) => ({
   }),
 }));
 
+const ExternalNavItem = styled('a')(({ theme, active, isMobile }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: 8,
+  flexDirection: isMobile ? 'column' : 'row',
+  textDecoration: 'none',
+  color: active ? colors.accent : '#ffffff',
+  padding: isMobile ? '5px 0' : '10px 15px',
+  borderRadius: 6,
+  fontSize: 12,
+  fontWeight: active ? 600 : 400,
+  transition: theme.transitions.create(['background', 'transform', 'color'], {
+    duration: theme.transitions.duration.short,
+    easing: theme.transitions.easing.easeInOut,
+  }),
+  '&:hover': {
+    background: isMobile ? 'none' : 'rgba(255, 255, 255, 0.1)',
+    color: colors.khaki,
+    transform: isMobile ? 'none' : 'translateX(5px)',
+  },
+  '&:active': {
+    transform: isMobile ? 'scale(0.95)' : 'translateX(2px)',
+  },
+  ...(active &&
+    !isMobile && {
+    background: 'rgba(255, 255, 255, 0.15)',
+    transform: 'translateX(3px)',
+  }),
+}));
+
 const GradientIcon = styled('div')(({ active }) => ({
   display: 'flex',
   alignItems: 'center',
@@ -144,7 +174,7 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
   const isCabinetRoute =
     location.pathname.startsWith('/cabinet') || location.pathname === '/register';
   const isRanksRoute = location.pathname === '/ranks';
-  const isTargetRoute = location.pathname === '/target'; // Добавляем проверку для /target
+  const isTargetRoute = location.pathname === '/target';
 
   const isAuthenticated = !!localStorage.getItem('userData');
   const userData = JSON.parse(localStorage.getItem('userData')) || {};
@@ -157,32 +187,35 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
         label: 'BASE CAMP',
         icon: MilitaryTechIcon,
         active: location.pathname === '/',
+        isExternal: false,
       },
-
-      
       {
         to: '/cabinet',
         label: username.toUpperCase(),
         icon: PersonIcon,
         active: isCabinetRoute,
+        isExternal: false,
       },
       {
         to: '/ranks',
         label: 'RANKS',
         icon: PersonIcon,
         active: isRanksRoute,
+        isExternal: false,
       },
       {
         to: '/missions',
         label: 'MISSIONS',
         icon: GamepadIcon,
         active: location.pathname === '/missions',
+        isExternal: false,
       },
       {
         to: '/target',
         label: 'TARGET',
         icon: CloseIcon,
-        active: isTargetRoute, // Используем отдельную переменную для /target
+        active: isTargetRoute,
+        isExternal: false,
       },
     ]
     : [
@@ -191,53 +224,65 @@ const Navbar = ({ sidebarOpen, setSidebarOpen, isMobile }) => {
         label: 'BASE CAMP',
         icon: MilitaryTechIcon,
         active: location.pathname === '/',
+        isExternal: false,
       },
       {
         to: '/register',
         label: 'REGISTER',
         icon: PersonIcon,
         active: isCabinetRoute,
+        isExternal: false,
       },
       {
         to: '/ranks',
         label: 'RANKS',
         icon: PersonIcon,
         active: isRanksRoute,
+        isExternal: false,
       },
       {
         to: '/missions',
         label: 'MISSIONS',
         icon: GamepadIcon,
         active: location.pathname === '/missions',
+        isExternal: false,
       },
       {
         to: 'https://x.com/trenchdeploy',
         label: 'TARGET',
         icon: CloseIcon,
-        active: isTargetRoute, // Добавляем /target и для неавторизованных
+        active: false,
+        isExternal: true,
       },
     ];
 
-
-
-  const renderLink = ({ to, label, icon: Icon, active }) => (
-    <NavItem to={to} active={active ? 1 : 0} isMobile={isMobile} key={to}>
-      <GradientIcon active={active}>
-        <Icon sx={{ fontSize: 24 }} />
-      </GradientIcon>
-      <Typography
-        sx={{
-          background: active ? colors.background : 'none',
-          WebkitBackgroundClip: active ? 'text' : 'none',
-          WebkitTextFillColor: active ? 'transparent' : '#ffffff',
-          fontSize: 12,
-          transition: 'all 0.2s ease-in-out',
-        }}
+  const renderLink = ({ to, label, icon: Icon, active, isExternal }) => {
+    const ItemComponent = isExternal ? ExternalNavItem : NavItem;
+    return (
+      <ItemComponent
+        to={!isExternal ? to : undefined}
+        href={isExternal ? to : undefined}
+        active={active ? 1 : 0}
+        isMobile={isMobile}
+        key={to}
       >
-        {label}
-      </Typography>
-    </NavItem>
-  );
+        <GradientIcon active={active}>
+          <Icon sx={{ fontSize: 24 }} />
+        </GradientIcon>
+        <Typography
+          sx={{
+            background: active ? colors.background : 'none',
+            WebkitBackgroundClip: active ? 'text' : 'none',
+            WebkitTextFillColor: active ? 'transparent' : '#ffffff',
+            fontSize: 12,
+            transition: 'all 0.2s ease-in-out',
+          }}
+        >
+          {label}
+        </Typography>
+      </ItemComponent>
+    );
+  };
 
   if (isMobile) {
     return (
